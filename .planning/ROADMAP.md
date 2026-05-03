@@ -27,7 +27,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Submitting a blank or whitespace-only input shows a validation message and no task is created
   4. When no tasks exist, an empty state message is displayed
   5. Completed tasks are visually distinct from active tasks (strikethrough + muted color)
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — HTML shell + CSS visual layer (index.html + styles.css)
+- [ ] 01-02-PLAN.md — TDD: validateTaskName() input validation logic
+- [ ] 01-03-PLAN.md — Complete app.js application logic (all TechArch function signatures)
 
 ### Phase 2: Full CRUD & Persistence
 **Goal**: Users can complete, delete, and persist tasks so the app is fully functional across sessions
@@ -48,5 +53,5 @@ Phases execute in numeric order: 1 → 2
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. App Shell & Task Creation | 0/? | Not started | - |
+| 1. App Shell & Task Creation | 0/3 | Not started | - |
 | 2. Full CRUD & Persistence | 0/? | Not started | - |
