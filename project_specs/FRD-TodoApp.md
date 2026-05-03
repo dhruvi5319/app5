@@ -189,7 +189,7 @@
 
 ---
 
-## 4. Task Deletion (F4)
+## 4. Task Deletion (F3)
 
 **Description:** Task Deletion permanently removes a task from the application. Clicking the delete button on a task item immediately removes the task from both the in-memory array and `localStorage`, and removes the task item from the DOM. Deletion is irreversible in v1 — there is no undo mechanism. This deliberate constraint preserves the app's simplicity.
 
@@ -257,15 +257,17 @@
 - Handle `setItem` quota exceeded or permission errors gracefully
 
 **Process — Page Load (Read):**
-1. Application initialises; system attempts to read `localStorage`
-2. System calls `localStorage.getItem("todoapp_tasks")`
-3. If `localStorage` throws (unavailable) → set in-memory array to `[]`; display persistent warning banner: "Storage is unavailable. Tasks will not be saved between sessions."; skip to app render
+1. Application initialises; system calls `isStorageAvailable()` — a probe that attempts a test `setItem`/`removeItem` to confirm read/write access
+2. If probe fails (storage blocked or unavailable) → set in-memory array to `[]`; display persistent warning banner: "Storage is unavailable. Tasks will not be saved between sessions."; skip to app render
+3. If probe passes → system calls `localStorage.getItem("todoapp_tasks")`
 4. If return value is `null` → no prior data; set in-memory array to `[]`; proceed to render
 5. System attempts `JSON.parse` on the returned string
-6. If parse throws → set in-memory array to `[]`; log parse error to console; proceed to render
+6. If parse throws → set in-memory array to `[]`; log parse error to console; proceed to render (silent — no user-facing error per ERR_STORAGE_PARSE)
 7. If parsed value is not an array → set in-memory array to `[]`; log warning; proceed to render
 8. If parsed value is a valid array → set in-memory array to parsed value; proceed to render
 9. System renders the task list (see F1)
+
+> **Note:** The `isStorageAvailable()` probe is the single authoritative check for storage availability at load. Steps 3–8 assume storage is accessible; any unexpected exception in those steps is treated as a data error (silent recovery), not a storage-unavailable error. A `getItem` throw after a passing probe is handled the same as a parse failure — empty array, log to console.
 
 **Process — On Write (Save):**
 1. A mutating operation (create, complete, delete) completes its in-memory update
@@ -292,11 +294,11 @@
 
 | Scenario | Trigger | UI Behavior | Recovery |
 |----------|---------|-------------|----------|
-| `localStorage` unavailable at load | API throws on `getItem` | Display persistent warning banner; app functions in-memory for session | Tasks lost on refresh; user informed upfront |
+| `localStorage` unavailable at load | `isStorageAvailable()` probe fails at startup | Display persistent warning banner; app functions in-memory for session | Tasks lost on refresh; user informed upfront |
 | `localStorage` unavailable on write | `setItem` throws | Display non-blocking auto-dismissing banner (5 sec) | In-memory state intact; user warned; data not persisted |
-| JSON parse error on load | `getItem` returns corrupt/non-JSON string | Treat as empty; set array to `[]`; log to console | User starts fresh; new tasks persist correctly |
-| Parsed data is not an array | `JSON.parse` returns non-array | Treat as empty; set array to `[]`; log warning | User starts fresh |
-| `localStorage` quota exceeded | `setItem` throws `QuotaExceededError` | Display non-blocking banner: "Storage full — task not saved" | User must delete tasks to free space |
+| JSON parse error on load | `getItem` returns corrupt/non-JSON string | Treat as empty; set array to `[]`; log to console (silent to user) | User starts fresh; new tasks persist correctly |
+| Parsed data is not an array | `JSON.parse` returns non-array | Treat as empty; set array to `[]`; log warning (silent to user) | User starts fresh |
+| `localStorage` quota exceeded | `setItem` throws `QuotaExceededError` | Display non-blocking banner: "Storage full — task not saved"; input field is NOT cleared — task name is retained for retry | User deletes tasks to free space, then resubmits without retyping |
 
 ---
 
@@ -465,9 +467,9 @@ Tests whether `localStorage` is readable and writable.
 |------------|---------|---------|--------------|----------|
 | `ERR_EMPTY_TASK` | F0 | Submit with empty/whitespace input | "Task name cannot be empty" | Inline validation |
 | `ERR_TASK_TOO_LONG` | F0 | Input exceeds 500 characters | "Task name must be 500 characters or fewer" | Inline validation |
-| `ERR_STORAGE_READ` | F4 | `localStorage.getItem` throws | "Storage is unavailable. Tasks will not be saved between sessions." | Persistent banner |
+| `ERR_STORAGE_READ` | F4 | `isStorageAvailable()` probe fails at startup | "Storage is unavailable. Tasks will not be saved between sessions." | Persistent banner |
 | `ERR_STORAGE_WRITE` | F4 | `localStorage.setItem` throws | "Changes could not be saved — storage unavailable" | Auto-dismiss banner (5s) |
-| `ERR_STORAGE_QUOTA` | F4 | `setItem` throws `QuotaExceededError` | "Storage full — task not saved" | Auto-dismiss banner (5s) |
+| `ERR_STORAGE_QUOTA` | F4 | `setItem` throws `QuotaExceededError` | "Storage full — task not saved"; input field retains failed task name for retry | Auto-dismiss banner (5s) |
 | `ERR_STORAGE_PARSE` | F4 | `JSON.parse` throws on load | Silent (log to console); app starts with empty list | Console only |
 | `ERR_TASK_NOT_FOUND` | F2, F3 | Toggle or delete fires for unknown ID | Silent (log to console); no UI change | Console only |
 | `ERR_RENDER_FAILED` | F1 | Unhandled exception in render function | "Unable to display tasks. Please refresh the page." | Static fallback message |
@@ -493,6 +495,7 @@ Tests whether `localStorage` is readable and writable.
 - Delete buttons must have an accessible label (e.g., `aria-label="Delete task: [task name]"`)
 - Empty state and validation messages must be announced by screen readers via `aria-live` regions
 - Color alone must not be the sole differentiator between active and completed tasks (strikethrough text required in addition to color change)
+- "Muted color" for completed task text is not specified as an exact hex value — the implementer may choose any color that satisfies the WCAG AA minimum contrast ratio of 3:1 against the task row background color
 
 ### Browser Support
 - Chrome (current), Firefox (current), Safari (current), Edge (current)

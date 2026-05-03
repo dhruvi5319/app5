@@ -373,7 +373,7 @@
 - [ ] The banner auto-dismisses after 5 seconds
 - [ ] The quota-exceeded banner message is distinct from the general write-failure message
 - [ ] The app does not crash on a quota exceeded error
-- [ ] The user can delete existing tasks to free space and then retry adding the task
+- [ ] When a quota exceeded error occurs, the task input field is NOT cleared — the failed task name is retained so the user can delete tasks to free space and resubmit without retyping
 
 **Priority:** P0 | **Feature Ref:** F4
 

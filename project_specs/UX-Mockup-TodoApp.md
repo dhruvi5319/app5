@@ -136,7 +136,7 @@ TodoApp is a single-screen, zero-friction personal task manager. The UX philosop
     │
     ▼
 [Input field visible WITHOUT scrolling — above fold]
-[Soft keyboard may auto-open if autofocus is active]
+[Soft keyboard opens on page load due to autofocus — this is intentional; consistent with rapid-capture use case]
     │
     ▼
 [User types task → presses Enter or taps "Add" button]
@@ -623,7 +623,7 @@ TodoApp is a single-screen, zero-friction personal task manager. The UX philosop
 
 ### Focus Management
 
-- **Input autofocus on load** (US-0.1 AC): `autofocus` attribute on the task input. Ensures Marcus can type immediately without clicking. Note: autofocus should be respected; avoid patterns that steal focus away.
+- **Input autofocus on load** (US-0.1 AC): `autofocus` attribute on the task input. Applies on all viewports including mobile. On mobile, this intentionally triggers the soft keyboard to open on page load — consistent with the rapid-capture use case (JRN-02.1). Avoid patterns that steal focus away after it is established.
 - **Focus return after submit**: After a successful task add, focus returns to the input field (not the newly created task) — enables rapid successive entry (JRN-02.1 rapid capture).
 - **Focus retention on error**: After a rejected submission, focus stays in the input field — user never has to re-click to fix their input.
 
@@ -667,6 +667,7 @@ TodoApp is a single-screen, zero-friction personal task manager. The UX philosop
 |-----------|-------------|-------|
 | App title | `<h1>` | "My Tasks" or "TodoApp" |
 | Storage warning banner | `<div role="alert">` or `<aside>` | Persistent or auto-dismiss |
+| Local-data footnote | `<footer>` or `<p>` below task list | Static, always-visible note: "Tasks are saved locally in this browser only." Sets expectations for cross-device/cross-browser behavior without alarming users. Not dismissible. |
 | Task input field | `<input type="text">` | `autofocus`, `placeholder`, `maxlength="500"` (soft limit; validation still runs) |
 | Add button | `<button type="submit">` | Inside a `<form>` to capture Enter key naturally |
 | Validation message area | `<p aria-live="polite">` | Below input; empty by default |

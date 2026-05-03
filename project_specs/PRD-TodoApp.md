@@ -62,7 +62,7 @@ A to-do app so simple it stays completely out of your way — open it, capture y
 **Capabilities:**
 - Text input field for task name
 - Submit via button click or Enter key press
-- Newly created task appears at the top (or bottom) of the task list immediately
+- Newly created task appears at the top of the task list immediately (newest-first order)
 - Input field clears after task is added
 - Empty task submissions are rejected (no blank tasks)
 
@@ -139,17 +139,19 @@ A to-do app so simple it stays completely out of your way — open it, capture y
 
 ## 7. Success Metrics
 
-**Adoption & Engagement:**
-- A user can add their first task within 10 seconds of opening the app for the first time
-- Tasks persist correctly across 100% of page refresh scenarios
-- Zero data loss on normal browser close/reopen cycles
+> **Note:** TodoApp has no analytics or telemetry. These metrics are developer/QA acceptance criteria — verified manually or via tooling before shipping, not tracked in production.
 
-**Quality:**
+**Acceptance Criteria — Functionality:**
+- A user can add their first task within 10 seconds of opening the app for the first time (manual timing test, first-time load)
+- Tasks persist correctly across 100% of page refresh scenarios (manual and automated test)
+- Zero data loss on normal browser close/reopen cycles (manual test)
 - No task creation, completion, or deletion failures under normal usage
-- App loads and is interactive in under 1 second on a standard broadband connection
-- Lighthouse performance score ≥ 90
 
-**Usability:**
+**Acceptance Criteria — Performance:**
+- App loads and is interactive in under 1 second on a standard broadband connection (measured via browser DevTools / Lighthouse)
+- Lighthouse performance score ≥ 90 (run Lighthouse locally before release; target: no network calls post-load)
+
+**Acceptance Criteria — Usability:**
 - All core task operations (add, complete, delete) require no more than 2 user interactions each
 - Empty state, completion state, and active state are visually distinct and unambiguous
 
@@ -193,6 +195,7 @@ The following features are explicitly excluded from v1 to preserve simplicity:
 - **Task categories / tags** — Not needed for a simple personal task list
 - **Due dates and reminders** — Out of scope; no notification infrastructure in v1
 - **Collaboration / sharing** — Personal tool only; no multi-user features
+- **Cross-device / cross-browser sync** — `localStorage` is scoped to a single browser on a single device; data does not sync across devices or browsers. A static in-app note ("Tasks are saved locally in this browser only.") communicates this limitation to users; sync is deferred to v2
 - **Task editing** — Add and delete is sufficient for v1 validation; inline edit deferred to v2
 - **Sorting / filtering** — Keep the list simple; all tasks shown in one list for v1
 
