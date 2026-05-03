@@ -11,7 +11,7 @@ const MAX_NAME_LENGTH = 500;
 let tasks = [];
 
 // ─────────────────────────────────────────────
-// 3. Storage functions (Phase 1 stubs — Phase 2 fills these in)
+// 3. Storage functions
 // ─────────────────────────────────────────────
 
 function isStorageAvailable() {
