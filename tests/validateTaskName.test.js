@@ -81,11 +81,12 @@ test('501 chars returns ERR_TASK_TOO_LONG', () => {
   assert.equal(result.errorMessage, 'Task name must be 500 characters or fewer');
 });
 
-test('spaces + 500 chars returns ERR_TASK_TOO_LONG after trim', () => {
+test('spaces + 500 chars trims to exactly 500 and returns valid true', () => {
+  // After trim: 'x'.repeat(500) = 500 chars = MAX_NAME_LENGTH = valid
+  // (must_haves truth: "validateTaskName string of 500 chars returns { valid: true }")
   const result = validateTaskName('  ' + 'x'.repeat(500));
-  assert.equal(result.valid, false);
-  assert.equal(result.errorCode, 'ERR_TASK_TOO_LONG');
-  assert.equal(result.errorMessage, 'Task name must be 500 characters or fewer');
+  assert.equal(result.valid, true);
+  assert.equal(result.errorCode, undefined);
 });
 
 test('spaces + 499 chars returns valid true after trim', () => {
