@@ -15,18 +15,47 @@ let tasks = [];
 // ─────────────────────────────────────────────
 
 function isStorageAvailable() {
-  // Phase 1 stub — localStorage not yet used
-  return false;
+  try {
+    const testKey = '__storage_test__';
+    localStorage.setItem(testKey, '1');
+    localStorage.removeItem(testKey);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 function loadTasks() {
-  // Phase 1 stub — returns empty array (no persistence yet)
-  return [];
+  if (!isStorageAvailable()) {
+    showBanner({ message: 'Storage is unavailable. Tasks will not be saved between sessions.', variant: 'persistent' });
+    return [];
+  }
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw === null) return [];
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    console.error('ERR_STORAGE_PARSE', e);
+    return [];
+  }
+  if (!Array.isArray(parsed)) {
+    console.warn('ERR_STORAGE_PARSE: stored value is not an array', parsed);
+    return [];
+  }
+  return parsed;
 }
 
 function saveTasks(tasks) {
-  // Phase 1 stub — no-op (persistence added in Phase 2)
-  // Phase 2 will implement: localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks))
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  } catch (e) {
+    if (e instanceof DOMException && (e.name === 'QuotaExceededError' || e.code === 22)) {
+      showBanner({ message: 'Storage full — task not saved', variant: 'dismissible' });
+    } else {
+      showBanner({ message: 'Changes could not be saved — storage unavailable', variant: 'dismissible' });
+    }
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -209,8 +238,12 @@ function handleTaskListClick(event) {
 // ─────────────────────────────────────────────
 
 function initApp() {
-  // Phase 1: storage check is stub; tasks start empty
-  tasks = loadTasks();  // returns [] in Phase 1
+  if (!isStorageAvailable()) {
+    tasks = [];
+    showBanner({ message: 'Storage is unavailable. Tasks will not be saved between sessions.', variant: 'persistent' });
+  } else {
+    tasks = loadTasks();
+  }
   renderTaskList(tasks);
 
   const form = document.getElementById('task-form');
@@ -234,6 +267,8 @@ if (typeof module !== 'undefined' && module.exports) {
     generateId,
     STORAGE_KEY,
     MAX_NAME_LENGTH,
-    // Phase 2 tests may add more exports here
+    isStorageAvailable,
+    loadTasks,
+    saveTasks,
   };
 }
