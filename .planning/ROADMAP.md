@@ -44,7 +44,11 @@ Plans:
   3. After a page refresh, all tasks (including their completion state) are still present exactly as left
   4. If localStorage is unavailable, the app still works for the session and shows a clear warning banner
   5. User can add their first task within 10 seconds of opening the app for the first time
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — TDD: localStorage storage functions (isStorageAvailable, loadTasks, saveTasks, initApp update)
+- [ ] 02-02-PLAN.md — CRUD unit tests for addTask, toggleTask, deleteTask (F2/F3 verification)
 
 ## Progress
 
