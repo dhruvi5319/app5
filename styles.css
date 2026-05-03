@@ -1,0 +1,187 @@
+/* =============================================
+   TodoApp — styles.css
+   Minimal / utilitarian aesthetic
+   Narrow centered column, black/grayscale only
+   ============================================= */
+
+/* ---- Reset & Base ---- */
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ---- Layout ---- */
+#app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ---- Header ---- */
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+/* ---- Banner ---- */
+#banner {
+  display: none;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  border: 1px solid #000;
+}
+
+#banner.banner--persistent {
+  display: block;
+  background: #f5f5f5;
+}
+
+#banner.banner--dismissible {
+  display: block;
+  background: #f5f5f5;
+}
+
+/* ---- Task Form ---- */
+#task-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+#task-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem;
+  border: 1px solid #999;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  color: #000;
+}
+
+#task-input:focus {
+  outline: 2px solid #000;
+  outline-offset: 0;
+}
+
+#task-form button[type="submit"] {
+  padding: 0.5rem 1rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+#task-form button[type="submit"]:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+#task-form button[type="submit"]:hover {
+  background: #333;
+}
+
+/* ---- Validation Message ---- */
+#validation-msg {
+  display: none;
+  color: #555;
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+#validation-msg.validation-msg--visible {
+  display: block;
+}
+
+/* ---- Task List ---- */
+#task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- Task Item ---- */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  min-height: 44px;
+}
+
+.task-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+  accent-color: #000;
+  flex-shrink: 0;
+}
+
+.task-item .task-name {
+  flex: 1;
+}
+
+.task-item .task-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 0.25rem 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-item .task-delete:hover {
+  color: #000;
+}
+
+.task-item .task-delete:focus {
+  outline: 2px solid #000;
+  outline-offset: 0;
+}
+
+/* ---- Completion State ---- */
+/* #767676 on white = 4.54:1 contrast ratio — exceeds WCAG AA 3:1 minimum */
+.task-item--completed .task-name {
+  text-decoration: line-through;
+  color: #767676;
+}
+
+/* ---- Empty State ---- */
+#empty-state {
+  color: #767676;
+  text-align: center;
+  margin: 2rem 0;
+  font-size: 0.875rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 480px) {
+  #task-form {
+    flex-direction: column;
+  }
+
+  #task-form button[type="submit"] {
+    width: 100%;
+  }
+}
