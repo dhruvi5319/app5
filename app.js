@@ -270,5 +270,9 @@ if (typeof module !== 'undefined' && module.exports) {
     isStorageAvailable,
     loadTasks,
     saveTasks,
+    addTask,
+    toggleTask,
+    deleteTask,
+    _resetTasksForTesting: () => { tasks = []; },
   };
 }
