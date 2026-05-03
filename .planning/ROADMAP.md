@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: App Shell & Task Creation
-**Status**: In Progress
+**Status**: executing
 **Goal**: Users can open the app, type a task, and see it appear in a list
 **Depends on**: Nothing (first phase)
 **Requirements**: F0 (Task Creation), F1 (Task List View)
