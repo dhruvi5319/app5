@@ -36,6 +36,7 @@ Plans:
 - [x] 01-03-PLAN.md — Complete app.js application logic (all TechArch function signatures)
 
 ### Phase 2: Full CRUD & Persistence
+**Status**: In Progress
 **Goal**: Users can complete, delete, and persist tasks so the app is fully functional across sessions
 **Depends on**: Phase 1
 **Requirements**: F2 (Task Completion), F3 (Task Deletion), F4 (Local Persistence)
