@@ -13,7 +13,7 @@ A two-phase delivery: first, a working app shell where users can add and view ta
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: App Shell & Task Creation** - Working HTML app where users can add tasks and see them listed
-- [ ] **Phase 2: Full CRUD & Persistence** - Complete task management with completion toggling, deletion, and localStorage persistence
+- [x] **Phase 2: Full CRUD & Persistence** - Complete task management with completion toggling, deletion, and localStorage persistence
 
 ## Phase Details
 
@@ -36,7 +36,7 @@ Plans:
 - [x] 01-03-PLAN.md — Complete app.js application logic (all TechArch function signatures)
 
 ### Phase 2: Full CRUD & Persistence
-**Status**: In Progress
+**Status**: passed
 **Goal**: Users can complete, delete, and persist tasks so the app is fully functional across sessions
 **Depends on**: Phase 1
 **Requirements**: F2 (Task Completion), F3 (Task Deletion), F4 (Local Persistence)
@@ -49,8 +49,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — TDD: localStorage storage functions (isStorageAvailable, loadTasks, saveTasks, initApp update)
-- [ ] 02-02-PLAN.md — CRUD unit tests for addTask, toggleTask, deleteTask (F2/F3 verification)
+- [x] 02-01-PLAN.md — TDD: localStorage storage functions (isStorageAvailable, loadTasks, saveTasks, initApp update)
+- [x] 02-02-PLAN.md — CRUD unit tests for addTask, toggleTask, deleteTask (F2/F3 verification)
 
 ## Progress
 
@@ -60,4 +60,4 @@ Phases execute in numeric order: 1 → 2
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. App Shell & Task Creation | 3/3 | Complete | 2026-05-03 |
-| 2. Full CRUD & Persistence | 0/? | Not started | - |
+| 2. Full CRUD & Persistence | 2/2 | Complete | 2026-05-03 |
